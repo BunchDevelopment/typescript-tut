@@ -1,13 +1,13 @@
 import React from 'react';
 import { IEpisode, IAction } from './interfaces';
 
-interface Props {
+interface IProps {
     episodes: Array<IEpisode>;
     toggleFavoriteAction: (episode: IEpisode) => IAction;
     favorites: Array<IEpisode>;
 }
 
-const EpisodesList = ({ episodes, toggleFavoriteAction, favorites }: Props): JSX.Element => {
+const EpisodesList = ({ episodes, toggleFavoriteAction, favorites }: IProps): JSX.Element => {
     return (
         <>
             {episodes.map((episode: IEpisode) => {
