@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Store } from './Store';
-
 import { IAction, IEpisode } from './interfaces';
-import EpisodesList from './EpisodesList';
+
+const EpisodesList = React.lazy(() => import('./EpisodesList'));
 
 const App = (): JSX.Element => {
     const { state, dispatch } = React.useContext(Store);
@@ -47,9 +47,11 @@ const App = (): JSX.Element => {
                     <p>Current Favorite Count: {state.favorites.length}</p>
                 </div>
             </header>
-            <section className="episode-layout">
-                <EpisodesList episodes={state.episodes} toggleFavoriteAction={toggleFavoriteAction} favorites={state.favorites} />
-            </section>
+            <React.Suspense fallback={<div>Loading...</div>}>
+                <section className="episode-layout">
+                    <EpisodesList episodes={state.episodes} toggleFavoriteAction={toggleFavoriteAction} favorites={state.favorites} />
+                </section>
+            </React.Suspense>
         </>
     );
 };
