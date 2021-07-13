@@ -1,42 +1,10 @@
 import React from 'react';
 
+import { Link } from '@reach/router';
 import { Store } from './Store';
-import { IAction, IEpisode } from './interfaces';
 
-const EpisodesList = React.lazy(() => import('./EpisodesList'));
-
-const App = (): JSX.Element => {
-    const { state, dispatch } = React.useContext(Store);
-
-    React.useEffect(() => {
-        state.episodes.length === 0 && fetchDataAction();
-    });
-
-    const fetchDataAction = async () => {
-        const URL = 'https://api.tvmaze.com/singlesearch/shows?q=rick-%26-morty&embed=episodes';
-        const data = await fetch(URL);
-        const dataJSON = await data.json();
-        return dispatch({
-            type: 'FETCH_DATA',
-            payload: dataJSON._embedded.episodes.splice(0, dataJSON._embedded.episodes.length - 7)
-        });
-    };
-
-    const toggleFavoriteAction = (episode: IEpisode): IAction => {
-        const episodeInFav = state.favorites.includes(episode);
-        let dispatchObj = {
-            type: 'ADD_FAV',
-            payload: episode
-        };
-        if (episodeInFav) {
-            const favWithoutEpisode = state.favorites.filter((fav: IEpisode) => fav.id !== episode.id);
-            dispatchObj = {
-                type: 'REMOVE_FAV',
-                payload: favWithoutEpisode
-            };
-        }
-        return dispatch(dispatchObj);
-    };
+const App = (props: any): JSX.Element => {
+    const { state } = React.useContext(Store);
 
     return (
         <>
@@ -44,14 +12,15 @@ const App = (): JSX.Element => {
                 <h1>Rick and Morty</h1>
                 <div>
                     <p>Pick your favorite episode!!!</p>
-                    <p>Current Favorite Count: {state.favorites.length}</p>
+                    <p>
+                        <Link to="/">Home</Link>
+                    </p>
+                    <p>
+                        <Link to="/Favorites">Current Favorite Count: {state.favorites.length}</Link>
+                    </p>
                 </div>
             </header>
-            <React.Suspense fallback={<div>Loading...</div>}>
-                <section className="episode-layout">
-                    <EpisodesList episodes={state.episodes} toggleFavoriteAction={toggleFavoriteAction} favorites={state.favorites} />
-                </section>
-            </React.Suspense>
+            {props.children}
         </>
     );
 };

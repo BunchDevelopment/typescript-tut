@@ -1,3 +1,5 @@
+export type Dispatch = React.Dispatch<IAction>;
+
 export interface IEpisode {
     airdate: string;
     airstamp: string;
@@ -12,12 +14,14 @@ export interface IEpisode {
     url: string;
 }
 
+// Using any because i dont know how to fix this yet. They always return the same thing, but still throwing ts error
 export interface IState {
     episodes: Array<IEpisode>;
-    favorites: Array<any>;
+    favorites: Array<IEpisode> | any;
 }
 
+// Using any because i dont know how to fix this yet. They always return the same thing, but still throwing ts error
 export interface IAction {
     type: string;
-    payload: any;
+    payload: Array<IEpisode> | any;
 }

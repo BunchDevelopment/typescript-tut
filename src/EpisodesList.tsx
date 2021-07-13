@@ -1,13 +1,15 @@
 import React from 'react';
-import { IEpisode, IAction } from './interfaces';
+import { IEpisode, IAction, IState } from './interfaces';
+import { toggleFavoriteAction } from './Actions';
+import { Store } from './Store';
 
 interface IProps {
     episodes: Array<IEpisode>;
-    toggleFavoriteAction: (episode: IEpisode) => IAction;
     favorites: Array<IEpisode>;
 }
 
-const EpisodesList = ({ episodes, toggleFavoriteAction, favorites }: IProps): JSX.Element => {
+const EpisodesList = ({ episodes, favorites }: IProps): JSX.Element => {
+    const { state, dispatch } = React.useContext(Store);
     return (
         <>
             {episodes.map((episode: IEpisode) => {
@@ -19,7 +21,7 @@ const EpisodesList = ({ episodes, toggleFavoriteAction, favorites }: IProps): JS
                             <div>
                                 Season: {episode.season} number: {episode.number}
                             </div>
-                            <button type="button" onClick={() => toggleFavoriteAction(episode)}>
+                            <button type="button" onClick={() => toggleFavoriteAction(state, dispatch, episode)}>
                                 {favorites.includes(episode) ? 'Unfavorite' : 'Favorite'}
                             </button>
                         </section>
