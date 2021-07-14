@@ -12,13 +12,24 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react",
+    "noFallthroughCasesInSwitch": true
+  },
+  "typedocOptions": {
+    "exclude": [
+      "src/App.test.js",
+      "src/index.js",
+      "src/serviceWorker.js",
+      "src/setupTests.js",
+      "test/"
+    ],
+    "mode": "file",
+    "out": "docs"
   },
   "include": [
     "src"
